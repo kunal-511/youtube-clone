@@ -1,0 +1,86 @@
+import { createError } from "../error.js";
+import User from "../models/User.js";
+
+export const test = (req, res) => {
+  console.log("test is working");
+  res.json("It's working!");
+};
+
+export const update = async (req, res, next) => {
+  if (req.params.id === req.user.id) {
+    try {
+      const updateUser = await User.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: req.body,
+        },
+        {
+          new: true,
+        }
+      );
+      res.status(200).json(updateUser);
+    } catch (error) {
+      next(error);
+    }
+  } else {
+    return next(createError(403, "You are not allowed to update this user"));
+  }
+};
+export const deleteUser = async (req, res, next) => {
+  if (req.params.id === req.user.id) {
+    try {
+      await User.findByIdAndDelete(req.params.id);
+      res.status(200).json("User has been deleted successfully!");
+    } catch (error) {
+      next(error);
+    }
+  } else {
+    return next(createError(403, "You are not allowed to update this user"));
+  }
+};
+export const getUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id);
+    res.status(200).json(user);
+  } catch (error) {
+    next(error);
+  }
+};
+export const subscribe = async (req, res, next) => {
+  try {
+    await User.findByIdAndUpdate(req.user.id, {
+      $push: { subscribedUsers: req.params.id },
+    });
+    await User.findByIdAndUpdate(req.params.id, {
+      $inc: { subscribers: 1 },
+    });
+    res.status(200).json("Subscribed successfully!");
+  } catch (error) {
+    next(error);
+  }
+};
+export const unSubscribe = async (req, res, next) => {
+  try {
+    await User.findByIdAndUpdate(req.user.id, {
+      $pull: { subscribedUsers: req.params.id },
+    });
+    await User.findByIdAndUpdate(req.params.id, {
+      $dec: { subscribers: -1 },
+    });
+    res.status(200).json("UnSubscribed successfully!");
+  } catch (error) {
+    next(error);
+  }
+};
+export const like = async (req, res, next) => {
+  try {
+  } catch (error) {
+    next(error);
+  }
+};
+export const dislike = async (req, res, next) => {
+  try {
+  } catch (error) {
+    next(error);
+  }
+};
