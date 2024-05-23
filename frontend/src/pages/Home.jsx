@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Card from "../components/Card";
@@ -15,7 +16,7 @@ const Home = ({ type }) => {
     useEffect(() => {
         const fetchVideos = async () => {
             try {
-                const res = await axios.get("/videos/random");
+                const res = await axios.get(`/videos/${type}`);
                 if (Array.isArray(res.data)) {
                     setVideos(res.data);
                 } else {
@@ -27,12 +28,12 @@ const Home = ({ type }) => {
             }
         };
         fetchVideos();
-    }, []);
+    }, [type]);
 
     return (
         <Container>
             {Array.isArray(videos) && videos.map((video) => (
-                <Card key={video.id} video={video} />
+                <Card key={video._id} video={video} />
             ))}
         </Container>
     );

@@ -1,4 +1,8 @@
+import { useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { loginSuccess, loginStart, loginFailure } from "../redux/userSlice";
 
 const Container = styled.div`
   display: flex;
@@ -63,30 +67,53 @@ const Link = styled.span`
 `;
 
 const SignIn = () => {
-    return (
-        <Container>
-            <Wrapper>
-                <Title>Sign in</Title>
-                <SubTitle>to continue to LamaTube</SubTitle>
-                <Input placeholder="username" />
-                <Input type="password" placeholder="password" />
-                <Button>Sign in</Button>
-                <Title>or</Title>
-                <Input placeholder="username" />
-                <Input placeholder="email" />
-                <Input type="password" placeholder="password" />
-                <Button>Sign up</Button>
-            </Wrapper>
-            <More>
-                English(USA)
-                <Links>
-                    <Link>Help</Link>
-                    <Link>Privacy</Link>
-                    <Link>Terms</Link>
-                </Links>
-            </More>
-        </Container>
-    );
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const dispatch = useDispatch()
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    dispatch(loginStart())
+
+    try {
+      const res = await axios.post("/auth/signin", { name, password });
+      console.log(res.data);
+      dispatch(loginSuccess(res.data))
+      // Add logic for successful login, such as redirecting the user
+    } catch (error) {
+      console.error(error);
+      dispatch(loginFailure())
+      // Handle error, such as displaying an error message to the user
+    }
+  };
+
+  return (
+    <Container>
+      <Wrapper>
+        <Title>Sign in</Title>
+        <SubTitle>to continue to TvYotube</SubTitle>
+        <form onSubmit={handleLogin}>
+          <Input placeholder="username" onChange={e => setName(e.target.value)} />
+          <Input type="password" placeholder="password" onChange={e => setPassword(e.target.value)} />
+          <Button type="submit">Sign in</Button>
+        </form>
+        <Title>or</Title>
+        <Input placeholder="username" onChange={e => setName(e.target.value)} />
+        <Input placeholder="email" onChange={e => setEmail(e.target.value)} />
+        <Input type="password" placeholder="password" onChange={e => setPassword(e.target.value)} />
+        <Button>Sign up</Button>
+      </Wrapper>
+      <More>
+        English(USA)
+        <Links>
+          <Link>Help</Link>
+          <Link>Privacy</Link>
+          <Link>Terms</Link>
+        </Links>
+      </More>
+    </Container>
+  );
 };
 
 export default SignIn;
