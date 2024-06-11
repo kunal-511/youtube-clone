@@ -4,9 +4,16 @@ import Video from "../models/Video.js";
 
 export const test = (req, res) => {
   console.log("test is working");
-  res.json("It's working!");
+  res.json(" user api is  working fine!");
 };
-
+export const getAllUsers = async (req, res, next) => {
+  try {
+    const users = await User.find();
+    res.status(200).json(users);
+  } catch (error) {
+    next(error);
+  }
+};
 export const update = async (req, res, next) => {
   if (req.params.id === req.user.id) {
     try {

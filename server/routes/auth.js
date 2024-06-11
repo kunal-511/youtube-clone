@@ -4,6 +4,10 @@ import { signup, signin } from "../controllers/auth.js";
 
 const router = express.Router();
 
+//health check of auhth route
+router.get("/health", (req, res) => {
+  res.send("Auth is Working Fine");
+});
 // Create a user
 router.post("/signup", signup);
 //Sign In

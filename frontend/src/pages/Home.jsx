@@ -12,18 +12,23 @@ const Container = styled.div`
 
 const Home = ({ type }) => {
     const [videos, setVideos] = useState([]);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchVideos = async () => {
             try {
                 const res = await axios.get(`/videos/${type}`);
+                setLoading(false);
                 if (Array.isArray(res.data)) {
                     setVideos(res.data);
                 } else {
-                    console.error("Unexpected data format:", res.data);
+                    setError("Unexpected data format");
                     setVideos([]);
                 }
             } catch (error) {
+                setLoading(false);
+                setError("Failed to fetch videos");
                 console.error("Failed to fetch videos:", error);
             }
         };
@@ -32,7 +37,9 @@ const Home = ({ type }) => {
 
     return (
         <Container>
-            {Array.isArray(videos) && videos.map((video) => (
+            {loading && <p>Loading...</p>}
+            {error && <p>{error}</p>}
+            {!loading && !error && videos.map((video) => (
                 <Card key={video._id} video={video} />
             ))}
         </Container>

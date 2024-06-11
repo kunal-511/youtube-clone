@@ -1,9 +1,9 @@
 import express from "express";
-import {} from "../controllers/video.js";
+
 const router = express.Router();
 import { verifyToken } from "../verifyToken.js";
 import {
-  addVideo,
+  createVideo,
   updateVideo,
   deleteVideo,
   getVideo,
@@ -16,7 +16,7 @@ import {
 } from "../controllers/video.js";
 
 // Create a video
-router.post("/", verifyToken, addVideo);
+router.post("/", verifyToken, createVideo);
 // Update a video
 router.put("/:id", verifyToken, updateVideo);
 // Delete a video

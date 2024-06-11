@@ -2,11 +2,14 @@ import Video from "../models/Video.js";
 import { createError } from "../error.js";
 import User from "../models/User.js";
 
-export const addVideo = async (req, res, next) => {
+export const createVideo = async (req, res, next) => {
   const newVideo = new Video({ userId: req.user.id, ...req.body });
   try {
     const savedVideo = await newVideo.save();
-    res.send(200).json(savedVideo);
+    res
+      .send(200)
+      .json(savedVideo)
+      .message("Video has been uploaded successfully!");
   } catch (error) {
     next(error);
   }
@@ -74,7 +77,7 @@ export const RandomVideos = async (req, res, next) => {
 export const TrendingVideos = async (req, res, next) => {
   try {
     const videos = await Video.find().sort({ views: -1 });
-    re.status(200).json(videos);
+    res.status(200).json(videos);
   } catch (error) {
     next(error);
   }
