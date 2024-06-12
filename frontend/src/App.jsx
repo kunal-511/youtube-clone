@@ -8,6 +8,7 @@ import Home from "./pages/Home"
 import Video from "./pages/Video"
 import SignIn from "./pages/SignIn"
 import "./App.css"
+import TestApi from './TestApi'
 
 
 
@@ -39,7 +40,7 @@ function App() {
                 <Routes>
                   <Route path="/">
                     <Route index element={<Home type="random" />} />
-                    <Route path='trends' element={<Home type="trend" />} />
+                    <Route path='trends' element={<Home type="trending" />} />
                     <Route path='subscriptions' element={<Home type="sub" />} />
                     <Route path="signin" element={<SignIn />} />
                     <Route path="video">
@@ -52,6 +53,8 @@ function App() {
           </BrowserRouter>
         </Container>
       </ThemeProvider>
+
+
     </>
   )
 }
