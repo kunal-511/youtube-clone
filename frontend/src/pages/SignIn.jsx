@@ -6,7 +6,7 @@ import { loginSuccess, loginStart, loginFailure } from "../redux/userSlice";
 import { auth, provider } from "../firebase";
 import { signInWithPopup } from "firebase/auth";
 import api from "../axios";
-import { Container, Wrapper, Title, SubTitle, Input, Button, More, Links, Link } from "./SignInStyledComponent";
+import { Container, Wrapper, Title, SubTitle, Input, Button, More, Links, Link } from "./Styles/SignInStyledComponent";
 
 
 const SignIn = () => {

@@ -9,9 +9,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { fetchFailure, fetchStart, fetchSuccess, like, disLike } from "../redux/videoSlice"
 import { subscription } from "../redux/userSlice"
-import { Container, Content, VideoWrapper, Title, Details, Info, Buttons, Button, Hr, Recommendation, ChannelInfo, Channel, Image, ChannelDetail, ChannelName, ChannelCounter, Description, Subscribe, VideoFrame } from "./VideoStyledComponent"
+import { Container, Content, VideoWrapper, Title, Details, Info, Buttons, Button, Hr, ChannelInfo, Channel, Image, ChannelDetail, ChannelName, ChannelCounter, Description, Subscribe, VideoFrame } from "./Styles/VideoStyledComponent"
 import { format } from "timeago.js";
 import { ThumbDown, ThumbUp } from "@mui/icons-material";
+import Recommendation from "../components/Recommendation";
 
 const Video = () => {
   const { currentUser } = useSelector((state) => state.user)
@@ -53,7 +54,7 @@ const Video = () => {
     <Container>
       <Content>
         <VideoWrapper>
-          <VideoFrame src={currentVideo.videoUrl}></VideoFrame>
+          <VideoFrame src={currentVideo.videoUrl} controls />
         </VideoWrapper>
         <Title>{currentVideo.title}</Title>
         <Details>
@@ -90,21 +91,7 @@ const Video = () => {
         <Hr />
         <Comments videoId={currentVideo._id} />
       </Content>
-      {/* <Recommendation>
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-      </Recommendation> */}
+      <Recommendation tags={currentVideo.tags} />
     </Container>
   );
 };
