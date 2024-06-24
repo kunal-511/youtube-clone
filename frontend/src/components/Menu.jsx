@@ -76,14 +76,20 @@ const Menu = ({ darkMode, setDarkMode }) => {
                     </>
                 }
                 <Title>BEST OF LAMATUBE</Title>
-                <Item>
-                    <LibraryMusicOutlinedIcon />
-                    Music
-                </Item>
-                <Item>
-                    <SportsBasketballOutlinedIcon />
-                    Sports
-                </Item>
+                <Link to="/music">
+                    <Item>
+                        <LibraryMusicOutlinedIcon />
+                        Music
+                    </Item>
+                </Link>
+                <Link to="/sports">
+
+                    <Item>
+
+                        <SportsBasketballOutlinedIcon />
+                        Sports
+                    </Item>
+                </Link>
                 <Item>
                     <SportsEsportsOutlinedIcon />
                     Gaming

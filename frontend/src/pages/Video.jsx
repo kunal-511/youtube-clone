@@ -22,7 +22,8 @@ const Video = () => {
 
   const path = useLocation().pathname.split("/")[2];
 
-  const [channel, setChannel] = useState({});
+  const [channel, setChannel] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,8 +33,10 @@ const Video = () => {
         const channelRes = await axios.get(`${api}/api/users/find/${videoRes.data.userId}`);
         setChannel(channelRes.data);
         dispatch(fetchSuccess(videoRes.data));
+        setLoading(false);
       } catch (error) {
         dispatch(fetchFailure());
+        setLoading(false);
       }
     };
     fetchData();
@@ -58,8 +61,12 @@ const Video = () => {
     dispatch(subscription(channel._id));
   };
 
+  if (loading) {
+    return <div>Loading...</div>; // Show a loading indicator while fetching data
+  }
+
   if (!currentVideo || !channel) {
-    return null; // or loading indicator
+    return <div>Error: Video or channel data is not available.</div>; // Handle cases where data is not available
   }
 
   return (

@@ -10,6 +10,7 @@ import SignIn from "./pages/SignIn"
 import "./App.css"
 import TestApi from './TestApi'
 import Search from './pages/Search'
+import Music from './pages/Music'
 
 
 
@@ -43,6 +44,7 @@ function App() {
                     <Route index element={<Home type="random" />} />
                     <Route path='trends' element={<Home type="trending" />} />
                     <Route path='subscriptions' element={<Home type="sub" />} />
+                    <Route path='music' element={<Music />} />
                     <Route path='search' element={<Search />} />
                     <Route path="signin" element={<SignIn />} />
                     <Route path="video">
