@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { Container, Avatar, Details, Name, Date, Text } from "./Styles/CommentStyledComponent"
 import axios from "axios";
+import api from "../axios";
 
 const Comment = ({ comment }) => {
 
@@ -10,7 +11,7 @@ const Comment = ({ comment }) => {
   useEffect(() => {
     const fetchComment = async () => {
       const res = await axios.get(
-        `/api/users/find/${comment.userId}`
+        `${api}/api/users/find/${comment.userId}`
       )
       setChannel(res.data)
     }

@@ -14,6 +14,7 @@ export const getAllUsers = async (req, res, next) => {
     next(error);
   }
 };
+
 export const update = async (req, res, next) => {
   if (req.params.id === req.user.id) {
     try {

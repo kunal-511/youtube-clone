@@ -12,14 +12,14 @@ const Card = ({ type, video }) => {
 
   useEffect(() => {
     const fetchChannel = async () => {
-      const res = await axios.get(`http://localhost:3000/api/videos/find/${video.userId}`);
+      const res = await axios.get(`${api}/api/users/find/${video.userId}`);
       setChannel(res.data);
     };
     fetchChannel();
   }, [video.userId]);
 
   return (
-    <Link to={`${api}/api/videos/${video._id}`} style={{ textDecoration: "none" }
+    <Link to={`/video/${video._id}`} style={{ textDecoration: "none" }
     }>
       <Container type={type}>
         <Image

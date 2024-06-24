@@ -5,6 +5,8 @@ import app from "../firebase"
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
+import api from "../axios";
+
 
 const Upload = ({ setOpen }) => {
     const [img, setImg] = useState(undefined)
@@ -81,15 +83,22 @@ const Upload = ({ setOpen }) => {
     }
 
     const handleUpload = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
+        console.log("Uploading video with data: ", { ...inputs, tags });
+
         try {
-            const res = await axios.post("/videos", { ...inputs, tags })
-            setOpen(false)
-            res.status === 200 && navigate(`/videos/${res.data._id}`)
+            const res = await axios.post(`${api}/api/videos`, { ...inputs, tags });
+            setOpen(false);
+            if (res.status === 200) {
+                navigate(`${api}/video/${res.data._id}`);
+            } else {
+                console.error(`Unexpected response status: ${res.status}`);
+            }
         } catch (error) {
-            console.error("Failed to upload video: ", error)
+            console.error("Failed to upload video: ", error.response ? error.response.data : error.message);
         }
-    }
+    };
+
 
     return (
         <Container>

@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Comment from "./Comment";
 import { Container, NewComment, Avatar, Input } from "./Styles/CommentsStyledComponent"
 import axios from "axios";
 import { useSelector } from "react-redux";
+import api from "../axios";
 
 const Comments = ({ videoId }) => {
   const { currentUser } = useSelector((state) => state.user)
@@ -14,9 +15,15 @@ const Comments = ({ videoId }) => {
 
   useEffect(() => {
     const fetchComments = async () => {
-      const res = await axios.get(`/api/comments/${videoId}`)
-    }
-  })
+
+      try {
+        const res = await axios.get(`${api}/api/comments/${videoId}`)
+        setComments(res.data)
+
+      } catch (error) { }
+    };
+    fetchComments();
+  }, [videoId])
   return (
     <Container>
       <NewComment>
