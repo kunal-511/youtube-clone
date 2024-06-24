@@ -6,8 +6,10 @@ export const Container = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  background-color: black;
+  background-color: pink;
   display: flex;
+  margin-left: 30rem;
+  padding: 20px;
   align-items: center;
   justify-content: center;
 `;
@@ -39,6 +41,7 @@ export const Input = styled.input`
   border-radius: 3px;
   padding: 10px;
   background-color: transparent;
+  z-index: 999;
 `;
 
 export const Desc = styled.textarea`

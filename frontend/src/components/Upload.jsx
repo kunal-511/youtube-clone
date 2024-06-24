@@ -2,8 +2,10 @@
 import { useEffect, useState } from "react"
 import { Container, Wrapper, Title, Close, Input, Desc, Button, Label } from "./Styles/UploadStyledComponent"
 import app from "../firebase"
-import { getStorage, ref, uploadBytestResumable, getDownloadURL } from "firebase/storage"
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 import { useNavigate } from "react-router-dom"
+import axios from "axios"
+
 const Upload = ({ setOpen }) => {
     const [img, setImg] = useState(undefined)
     const [video, setVideo] = useState(undefined)
@@ -16,14 +18,14 @@ const Upload = ({ setOpen }) => {
 
     const handleTags = (e) => {
         setTags(e.target.value.split(","))
-
     }
+
     const uploadFile = (file, urlType) => {
         const storage = getStorage(app)
         const fileName = new Date().getTime() + file.name
         const storageRef = ref(storage, fileName)
 
-        const uploadTask = uploadBytestResumable(storageRef, file);
+        const uploadTask = uploadBytesResumable(storageRef, file);
 
         // Register three observers:
         // 1. 'state_changed' observer, called any time the state changes
@@ -43,11 +45,13 @@ const Upload = ({ setOpen }) => {
                     case 'running':
                         console.log('Upload is running');
                         break;
-                    default
+                    default:
+                        break
                 }
             },
             (error) => {
                 // Handle unsuccessful uploads
+                console.error("Upload failed: ", error);
             },
             () => {
                 // Handle successful uploads on complete
@@ -60,29 +64,31 @@ const Upload = ({ setOpen }) => {
                 });
             }
         );
+    };
 
-    }
     useEffect(() => {
         video && uploadFile(video, "videoUrl")
     }, [video])
 
-
     useEffect(() => {
         img && uploadFile(img, "imgUrl")
-
     }, [img])
 
     const handleChange = (e) => {
-        setInputs(prev => {
+        setInputs((prev) => {
             return { ...prev, [e.target.name]: e.target.value }
         })
     }
 
     const handleUpload = async (e) => {
         e.preventDefault()
-        const res = await axios.post("/videos", { ...inputs, tags })
-        setOpen(false)
-        res.status === 200 && navigate(`/videos/${res.data._id}`)
+        try {
+            const res = await axios.post("/videos", { ...inputs, tags })
+            setOpen(false)
+            res.status === 200 && navigate(`/videos/${res.data._id}`)
+        } catch (error) {
+            console.error("Failed to upload video: ", error)
+        }
     }
 
     return (
@@ -100,7 +106,7 @@ const Upload = ({ setOpen }) => {
                 <Input onChange={handleTags} type="text" placeholder="Separate the tags with commas." />
                 <Label>Image:</Label>
                 {imgPercentage > 0 ? ("Uploading:" + imgPercentage + "%") : (
-                    < Input type="file" accept="image/*" onChange={e => setImg(e.target.files[0])} />)}
+                    <Input type="file" accept="image/*" onChange={e => setImg(e.target.files[0])} />)}
                 <Button onClick={handleUpload}>Upload</Button>
             </Wrapper>
         </Container>

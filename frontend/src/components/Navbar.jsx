@@ -6,7 +6,7 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import VideoCallOutlinedIcon from "@mui/icons-material/VideoCallOutlined";
 import { Container, Wrapper, Search, Input, User, Avatar, Button } from "./Styles/NavbarStyledComponent"
 import { useState } from "react";
-import { Upload } from "@mui/icons-material";
+import Upload from "./Upload";
 
 const Navbar = () => {
   const navigate = useNavigate()
@@ -24,7 +24,7 @@ const Navbar = () => {
           </Search>
           {currentUser ? (
             <User>
-              <VideoCallOutlinedIcon style={{ color: "white" }} onclick={() => setOpen(true)} />
+              <VideoCallOutlinedIcon style={{ color: "white" }} onClick={() => setOpen(true)} />
               <Avatar src={currentUser.img} />
               {currentUser.name}
             </User>
