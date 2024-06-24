@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { fetchFailure, fetchStart, fetchSuccess, like, disLike } from "../redux/videoSlice";
+import { fetchFailure, fetchStart, fetchSuccess, like, dislike } from "../redux/videoSlice";
 import { subscription } from "../redux/userSlice";
 import { Container, Content, VideoWrapper, Title, Details, Info, Buttons, Button, Hr, ChannelInfo, Channel, Image, ChannelDetail, ChannelName, ChannelCounter, Description, Subscribe, VideoFrame } from "./Styles/VideoStyledComponent";
 import { format } from "timeago.js";
@@ -40,20 +40,20 @@ const Video = () => {
   }, [path, dispatch]);
 
   const handleLike = async () => {
-    await axios.put(`${api}/api/users/like/${currentVideo._id}`, { userId: currentUser._id });
+    await axios.put(`${api}/api/users/like/${currentVideo._id}`);
     dispatch(like(currentUser._id));
   };
 
   const handleDisLike = async () => {
-    await axios.put(`${api}/api/users/dislike/${currentVideo._id}`, { userId: currentUser._id });
-    dispatch(disLike(currentUser._id));
+    await axios.put(`${api}/api/users/dislike/${currentVideo._id}`);
+    dispatch(dislike(currentUser._id));
   };
 
   const handleSubscription = async () => {
     if (currentUser.subscribedUsers.includes(channel._id)) {
-      await axios.put(`${api}/api/users/unsub/${channel._id}`, { userId: currentUser._id });
+      await axios.put(`${api}/api/users/unsub/${channel._id}`);
     } else {
-      await axios.put(`${api}/api/users/sub/${channel._id}`, { userId: currentUser._id });
+      await axios.put(`${api}/api/users/sub/${channel._id}`);
     }
     dispatch(subscription(channel._id));
   };

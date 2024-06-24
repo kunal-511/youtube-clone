@@ -32,7 +32,7 @@ function App() {
   return (
     <>
       <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-        <Container >
+        <Container style={{ backgroundColor: "red" }} >
           <BrowserRouter>
             <Menu darkMode={darkMode} setDarkMode={setDarkMode} />
             <Main>

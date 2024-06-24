@@ -12,6 +12,9 @@ const SignIn = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [registerName, setRegisterName] = useState("");
+  const [registerEmail, setRegisterEmail] = useState("");
+  const [registerPassword, setRegisterPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -31,6 +34,20 @@ const SignIn = () => {
       // Handle error, such as displaying an error message to the user
     }
   };
+  const handleRegister = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(`${api}/api/auth/signup`, { name: registerName, email: registerEmail, password: registerPassword })
+      console.log(response.data)
+      dispatch(loginSuccess(response.data));
+      navigate('/');
+    }
+    catch (error) {
+      console.error(error)
+      dispatch(loginFailure());
+    }
+  }
 
   const signInwithGoogle = async () => {
     dispatch(loginStart());
@@ -72,10 +89,12 @@ const SignIn = () => {
           Sign in with Google
         </Button>
         <Title>or</Title>
-        <Input placeholder="username" onChange={(e) => setName(e.target.value)} />
-        <Input placeholder="email" onChange={(e) => setEmail(e.target.value)} />
-        <Input type="password" placeholder="password" onChange={(e) => setPassword(e.target.value)} />
-        <Button>Sign up</Button>
+        <form onSubmit={handleRegister}>
+          <Input placeholder="username" value={registerName} onChange={(e) => setRegisterName(e.target.value)} />
+          <Input placeholder="email" value={registerEmail} onChange={(e) => setRegisterEmail(e.target.value)} />
+          <Input type="password" placeholder="password" value={registerPassword} onChange={(e) => setRegisterPassword(e.target.value)} />
+          <Button>Sign up</Button>
+        </form>
       </Wrapper>
       <More>
         English(USA)
